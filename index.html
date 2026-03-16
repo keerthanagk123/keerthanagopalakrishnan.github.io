@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keerthana Gopalakrishnan</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050a0f;
+    --surface: #0b1420;
+    --surface2: #101d2e;
+    --accent: #00e5ff;
+    --accent2: #7b2fff;
+    --accent3: #ff4f9b;
+    --text: #e8f4f8;
+    --muted: #6a8a9a;
+    --border: rgba(0,229,255,0.12);
+    --glow: 0 0 30px rgba(0,229,255,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed; pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    position: fixed; pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease, width 0.2s, height 0.2s;
+    opacity: 0.5;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    padding: 1.2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(5,10,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 600;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,255,0.06) 0%, transparent 70%);
+    top: -200px; right: -100px;
+    pointer-events: none;
+  }
+  .hero-glow2 {
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(123,47,255,0.07) 0%, transparent 70%);
+    bottom: -100px; left: 10%;
+    pointer-events: none;
+  }
+  .hero-content { position: relative; max-width: 900px; }
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+  h1 {
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+  h1 .first { display: block; color: var(--text); }
+  h1 .last {
+    display: block;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 60%, var(--accent3) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 580px;
+    margin-bottom: 2.5rem;
+    font-weight: 400;
+  }
+  .hero-sub strong { color: var(--text); font-weight: 600; }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    padding: 0.75rem 1.8rem;
+    border-radius: 4px;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.25s;
+    cursor: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    box-shadow: 0 0 24px rgba(0,229,255,0.3);
+  }
+  .btn-primary:hover {
+    background: #fff;
+    box-shadow: 0 0 40px rgba(0,229,255,0.5);
+    transform: translateY(-2px);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* STATS */
+  .hero-stats {
+    display: flex; gap: 3rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 6rem 4rem;
+    position: relative;
+  }
+  .section-header {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 3.5rem;
+  }
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+  }
+  h2 {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ABOUT */
+  #about .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text p {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+  .about-text p strong { color: var(--text); }
+  .contact-pills { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.5rem; }
+  .pill {
+    display: flex; align-items: center; gap: 0.8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .pill span { color: var(--accent); }
+
+  /* SKILLS */
+  #skills .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.8rem;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .skill-card:hover::before { transform: scaleX(1); }
+  .skill-card:hover {
+    border-color: rgba(0,229,255,0.25);
+    box-shadow: var(--glow);
+    transform: translateY(-3px);
+  }
+  .skill-cat {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+    font-family: 'Space Mono', monospace;
+  }
+  .skill-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.8rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag {
+    font-size: 0.7rem;
+    font-family: 'Space Mono', monospace;
+    padding: 0.25rem 0.6rem;
+    background: rgba(0,229,255,0.07);
+    border: 1px solid rgba(0,229,255,0.12);
+    border-radius: 3px;
+    color: var(--muted);
+  }
+
+  /* EXPERIENCE */
+  #experience .timeline { display: flex; flex-direction: column; gap: 0; }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2rem;
+    position: relative;
+    padding-bottom: 3rem;
+  }
+  .timeline-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 199px; top: 0; bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+  .timeline-dot {
+    position: absolute;
+    left: 191px; top: 4px;
+    width: 17px; height: 17px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 12px rgba(0,229,255,0.4);
+  }
+  .timeline-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-align: right;
+    padding-top: 2px;
+  }
+  .timeline-body { padding-left: 2rem; }
+  .timeline-role {
+    font-size: 1rem; font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .timeline-org {
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 0.8rem;
+  }
+  .timeline-body ul { list-style: none; }
+  .timeline-body li {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+    padding-left: 1rem;
+    position: relative;
+    margin-bottom: 0.4rem;
+  }
+  .timeline-body li::before {
+    content: '›';
+    position: absolute; left: 0;
+    color: var(--accent);
+  }
+
+  /* PROJECTS */
+  #projects .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.8rem;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card:hover {
+    border-color: rgba(0,229,255,0.3);
+    box-shadow: var(--glow);
+    transform: translateY(-4px);
+  }
+  .project-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent2);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.8rem;
+  }
+  .project-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; line-height: 1.3; }
+  .project-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; margin-bottom: 1rem; }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+  /* PUBLICATIONS */
+  #publications .pub-list { display: flex; flex-direction: column; gap: 1.2rem; }
+  .pub-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 1.5rem 1.8rem;
+    transition: all 0.25s;
+  }
+  .pub-item:hover {
+    border-left-color: var(--accent);
+    box-shadow: var(--glow);
+    transform: translateX(4px);
+  }
+  .pub-status {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    margin-bottom: 0.6rem;
+  }
+  .status-published { background: rgba(0,229,255,0.1); color: var(--accent); }
+  .status-review { background: rgba(123,47,255,0.15); color: #a78fff; }
+  .status-prep { background: rgba(255,79,155,0.1); color: var(--accent3); }
+  .pub-title { font-size: 0.92rem; font-weight: 600; line-height: 1.5; margin-bottom: 0.4rem; }
+  .pub-venue { font-size: 0.78rem; color: var(--muted); font-family: 'Space Mono', monospace; }
+
+  /* EDUCATION */
+  #education .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .edu-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: all 0.25s;
+  }
+  .edu-card:hover {
+    border-color: rgba(0,229,255,0.25);
+    box-shadow: var(--glow);
+  }
+  .edu-degree { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .edu-field { font-size: 0.85rem; color: var(--accent); margin-bottom: 0.2rem; font-family: 'Space Mono', monospace; }
+  .edu-school { font-size: 0.82rem; color: var(--muted); margin-bottom: 1rem; }
+  .edu-gpa {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+  .edu-courses { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .fade-in { opacity: 0; animation: fadeUp 0.7s forwards; }
+  .fade-in:nth-child(1) { animation-delay: 0.1s; }
+  .fade-in:nth-child(2) { animation-delay: 0.2s; }
+  .fade-in:nth-child(3) { animation-delay: 0.35s; }
+  .fade-in:nth-child(4) { animation-delay: 0.5s; }
+  .fade-in:nth-child(5) { animation-delay: 0.65s; }
+
+  .live-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%; background: #00ff88;
+    display: inline-block;
+    animation: pulse 2s infinite;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    #hero { padding: 7rem 1.5rem 3rem; }
+    #about .about-grid,
+    #education .edu-grid { grid-template-columns: 1fr; }
+    .timeline-item { grid-template-columns: 1fr; }
+    .timeline-item::after { display: none; }
+    .timeline-dot { display: none; }
+    .timeline-date { text-align: left; }
+    .timeline-body { padding-left: 0; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">KG_PORTFOLIO</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#education">Education</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-tag fade-in"><span class="live-dot"></span> Available · MS ECE @ Oregon State</div>
+    <h1 class="fade-in">
+      <span class="first">Keerthana</span>
+      <span class="last">Gopalakrishnan</span>
+    </h1>
+    <p class="hero-sub fade-in">
+      <strong>ML Researcher &amp; XR Developer</strong> bridging neurotechnology, machine learning, and extended reality to build impactful tools for <strong>neurorehabilitation</strong> and intuitive human–AI interaction.
+    </p>
+    <div class="hero-cta fade-in">
+      <a href="mailto:gopalake@oregonstate.edu" class="btn btn-primary">Get in Touch</a>
+      <a href="#projects" class="btn btn-ghost">View Projects</a>
+    </div>
+    <div class="hero-stats fade-in">
+      <div>
+        <div class="stat-num">3.82</div>
+        <div class="stat-label">GPA · MS</div>
+      </div>
+      <div>
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Publications</div>
+      </div>
+      <div>
+        <div class="stat-num">8+</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div>
+        <div class="stat-num">2</div>
+        <div class="stat-label">Research Labs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-num">01 /</span>
+    <h2>About</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a graduate researcher at <strong>Oregon State University</strong> working at the intersection of neurotechnology, virtual reality, and machine learning. My thesis investigates how VR can increase embodiment in neuroprosthetic users by estimating cognitive load from physiological signals.</p>
+      <p>My work spans designing immersive environments in <strong>Unreal Engine 5</strong>, building ML models for multimodal biosignal analysis (EEG, EDA, PPG), and developing real-time adaptive interfaces. Prior to OSU, I was a research intern at the <strong>Indian Institute of Science</strong>, where I worked on UAV navigation, path planning, and multi-agent collision avoidance systems.</p>
+      <p>I'm passionate about building technology that understands and adapts to human cognition — from prosthetics to robotics.</p>
+    </div>
+    <div>
+      <div class="contact-pills">
+        <div class="pill"><span>◈</span> Corvallis, OR 97330</div>
+        <div class="pill"><span>◈</span> gopalake@oregonstate.edu</div>
+        <div class="pill"><span>◈</span> +1 (541) 908 9216</div>
+        <div class="pill"><span>◈</span> Expected Graduation · June 2026</div>
+        <div class="pill"><span>◈</span> Advisors · Dr. V John Mathews &amp; Dr. Raffaele De Amicis</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <span class="section-num">02 /</span>
+    <h2>Skills</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-cat">Languages &amp; Tools</div>
+      <h3>Programming</h3>
+      <div class="skill-tags">
+        <span class="tag">Python</span><span class="tag">MATLAB</span><span class="tag">C</span><span class="tag">C#</span><span class="tag">Git</span><span class="tag">LaTeX</span><span class="tag">ROS</span><span class="tag">Gazebo</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Immersive Tech</div>
+      <h3>VR / XR Development</h3>
+      <div class="skill-tags">
+        <span class="tag">Unreal Engine 5</span><span class="tag">Blender</span><span class="tag">Blueprint</span><span class="tag">Haptics</span><span class="tag">VR UI (UMG)</span><span class="tag">3D Animation</span><span class="tag">Unity (Learning)</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">AI / ML</div>
+      <h3>Machine Learning</h3>
+      <div class="skill-tags">
+        <span class="tag">PyTorch</span><span class="tag">TensorFlow</span><span class="tag">Keras</span><span class="tag">scikit-learn</span><span class="tag">PINNs</span><span class="tag">R-CNN</span><span class="tag">Feature Engineering</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Neuroscience &amp; Signals</div>
+      <h3>Biosignal Processing</h3>
+      <div class="skill-tags">
+        <span class="tag">EEG</span><span class="tag">EDA</span><span class="tag">PPG</span><span class="tag">EMG</span><span class="tag">HRV</span><span class="tag">LSL</span><span class="tag">NeuroKit2</span><span class="tag">Time-Series</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Autonomous Systems</div>
+      <h3>Robotics &amp; UAVs</h3>
+      <div class="skill-tags">
+        <span class="tag">UAV Path Planning</span><span class="tag">CBF</span><span class="tag">RRT</span><span class="tag">Obstacle Avoidance</span><span class="tag">Control Systems</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Data</div>
+      <h3>Data &amp; Visualization</h3>
+      <div class="skill-tags">
+        <span class="tag">NumPy</span><span class="tag">Pandas</span><span class="tag">OpenCV</span><span class="tag">Matplotlib</span><span class="tag">Excel</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <span class="section-num">03 /</span>
+    <h2>Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">Sep 2024 –<br>Jun 2025</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-body">
+        <div class="timeline-role">Graduate Teaching Assistant</div>
+        <div class="timeline-org">Oregon State University · Corvallis, OR</div>
+        <ul>
+          <li>Assisted with designing and grading assignments and exams for a class of over 200 students.</li>
+          <li>Courses: ENGR 102 – Electrical Fundamentals I, ENGR 202 – Electrical Fundamentals II, ECE 271/272 – Digital Logic Design.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Jun 2023 –<br>Sep 2024</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-body">
+        <div class="timeline-role">Research Intern</div>
+        <div class="timeline-org">AIRL · Indian Institute of Science, Bangalore</div>
+        <ul>
+          <li>Contributed to advanced research in path planning, path tracking, and obstacle avoidance for UAV systems.</li>
+          <li>Led development of the obstacle avoidance module for a Sense and Avoid system using RRT and Artificial Potential Field algorithms.</li>
+          <li>Worked on a UAV Traffic Management System using Control Barrier Functions (CBF) for Collins Aerospace.</li>
+          <li>Integrated Physics-Informed Neural Networks (PINNs) to enhance robotics applications.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-num">04 /</span>
+    <h2>Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-num">P.01 · THESIS</div>
+      <h3>Neuroprosthetic Training in Virtual Reality</h3>
+      <p>Developing a VR-based training system to enhance embodiment and reduce cognitive workload in neuroprosthesis users. Integrates multimodal biosignals (EEG, EDA, EMG) for real-time adaptation.</p>
+      <div class="project-stack"><span class="tag">Unreal Engine 5</span><span class="tag">EEG/EDA/EMG</span><span class="tag">ML</span><span class="tag">Blender</span></div>
+    </div>
+    <div class="project-card">
+      <div class="project-num">P.02 · COURSE</div>
+      <h3>Coffee Machine Simulation in VR</h3>
+      <p>Immersive VR training environment simulating coffee machine operation with custom Blender assets and realistic Blueprint-scripted interactions in Unreal Engine 5.</p>
+      <div class="project-stack"><span class="tag">Unreal Engine 5</span><span class="tag">Blender</span><span class="tag">Blueprint</span></div>
+    </div>
+    <div class="project-card">
+      <div class="project-num">P.03 · DEEP LEARNING</div>
+      <h3>Object Detection with R-CNN</h3>
+      <p>Implemented R-CNN models for object detection and instance segmentation on the COCO dataset. Optimized through backbone selection, data augmentation, and hyperparameter tuning.</p>
+      <div class="project-stack"><span class="tag">PyTorch</span><span class="tag">R-CNN</span><span class="tag">COCO</span><span class="tag">Python</span></div>
+    </div>
+    <div class="project-card">
+      <div class="project-num">P.04 · COMPUTER VISION</div>
+      <h3>Posture Detection System</h3>
+      <p>Vision-based classifier for human sitting posture (straight, hunchback, reclined) from side-view images using OpenPose for keypoint extraction and a Keras neural network.</p>
+      <div class="project-stack"><span class="tag">OpenPose</span><span class="tag">Keras</span><span class="tag">OpenCV</span><span class="tag">Python</span></div>
+    </div>
+    <div class="project-card">
+      <div class="project-num">P.05 · ROBOTICS</div>
+      <h3>UAV Traffic Management with PINNs</h3>
+      <p>Dynamic UAV traffic coordination system using Control Barrier Functions integrated with Physics-Informed Neural Networks for real-time path planning and deconfliction.</p>
+      <div class="project-stack"><span class="tag">PINNs</span><span class="tag">CBF</span><span class="tag">Python</span><span class="tag">ROS</span></div>
+    </div>
+    <div class="project-card">
+      <div class="project-num">P.06 · CAPSTONE</div>
+      <h3>Autopilot Design using PINNs</h3>
+      <p>Physics-guided autopilot system training PINNs to mimic classical controllers. Led a 4-person team, managed coordination, and oversaw system evaluation.</p>
+      <div class="project-stack"><span class="tag">PINNs</span><span class="tag">MATLAB</span><span class="tag">Python</span><span class="tag">Control Systems</span></div>
+    </div>
+    <div class="project-card">
+      <div class="project-num">P.07 · SIGNAL PROCESSING</div>
+      <h3>Video Stabilization using SIFT</h3>
+      <p>Video stabilization pipeline using Scale-Invariant Feature Transform to detect and match keypoints between frames, with motion estimation and frame warping to reduce jitter.</p>
+      <div class="project-stack"><span class="tag">SIFT</span><span class="tag">OpenCV</span><span class="tag">Python</span></div>
+    </div>
+    <div class="project-card">
+      <div class="project-num">P.08 · NEURAL NETWORKS</div>
+      <h3>Currency Exchange Rate Forecasting</h3>
+      <p>Feedforward backpropagation neural network for predicting currency exchange rates from historical financial time-series data with hyperparameter tuning.</p>
+      <div class="project-stack"><span class="tag">Python</span><span class="tag">Neural Networks</span><span class="tag">Time-Series</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="section-header">
+    <span class="section-num">05 /</span>
+    <h2>Publications</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="pub-list">
+    <div class="pub-item">
+      <span class="pub-status status-published">Published</span>
+      <div class="pub-title">Virtual Traffic Island-Based Approach for Simultaneous Resolution in UAV Traffic Management</div>
+      <div class="pub-venue">Unmanned Systems · Ramamurthy, Majumder, <strong>Gopalakrishnan</strong> et al.</div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-status status-review">In Review · IEEE Transactions on AI</span>
+      <div class="pub-title">Physics-Guided Neural Network and Physics-Informed Neural Network based Autopilot Design</div>
+      <div class="pub-venue"><strong>Gopalakrishnan</strong>, Gouri H, Jaysree Rajesh, Durgashree, Chandar</div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-status status-prep">In Preparation · ISMAR 2026</span>
+      <div class="pub-title">Integrating EEG, EMG, and EDA in AR Systems to Train Intuitive Prosthetic Hand Controllers with Reduced Cognitive Load</div>
+      <div class="pub-venue">Sylwester, Shazifadeh, <strong>Gopalakrishnan</strong>, De Amicis, Mathews</div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header">
+    <span class="section-num">06 /</span>
+    <h2>Education</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <div class="edu-degree">Master of Science</div>
+      <div class="edu-field">Electrical &amp; Computer Engineering</div>
+      <div class="edu-school">Oregon State University · Corvallis, OR · Expected Jun 2026</div>
+      <div class="edu-gpa">GPA: 3.82</div>
+      <div class="edu-courses">Thesis: Increasing embodiment in prosthetic users using VR by finding cognitive load.<br><br>Coursework: Virtual &amp; Augmented Reality, Human-Computer Interactions, Deep Learning, Machine Learning, Contemporary Energy Applications, Linear Systems.</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-degree">Bachelor of Technology</div>
+      <div class="edu-field">Electronics &amp; Communications Engineering</div>
+      <div class="edu-school">PES University · Bangalore, India · Jun 2024</div>
+      <div class="edu-gpa">CGPA: 7.79 · Distinction Award Certificate (3 semesters)</div>
+      <div class="edu-courses">Coursework: Robotics, Artificial Neural Networks, Digital Image Processing, ML, Signal Processing, Control Systems, Autonomous Vehicle Technology, Digital VLSI, Analog Circuit Design.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Keerthana Gopalakrishnan</span>
+  <span>gopalake@oregonstate.edu · Corvallis, OR</span>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px';
+      cursor.style.height = '20px';
+      cursor.style.background = '#fff';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px';
+      cursor.style.height = '12px';
+      cursor.style.background = 'var(--accent)';
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        e.target.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.skill-card, .project-card, .pub-item, .edu-card, .timeline-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
