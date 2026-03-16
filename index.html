@@ -162,7 +162,7 @@
     <h1 class="fade-in"><span class="first">Keerthana</span><span class="last">Gopalakrishnan</span></h1>
     <p class="hero-sub fade-in"><strong>ML Researcher &amp; XR Developer</strong> bridging neurotechnology, machine learning, and extended reality to build impactful tools for <strong>neurorehabilitation</strong> and intuitive human&ndash;AI interaction.</p>
     <div class="hero-cta fade-in">
-      <a href="/cdn-cgi/l/email-protection#50373f20313c313b35767366646b3f2235373f3e23243124357e353425" class="btn btn-primary">Get in Touch</a>
+      <a href="#" class="btn btn-primary email-link">Get in Touch</a>
       <a href="#projects" class="btn btn-ghost">View Projects</a>
     </div>
     <div class="hero-stats fade-in">
@@ -185,7 +185,7 @@
     <div>
       <div class="contact-pills">
         <div class="pill"><span>&#9672;</span> Corvallis, OR 97330</div>
-        <div class="pill"><span>&#9672;</span> gopalake&#64;oregonstate.edu</div>
+        <div class="pill"><span>&#9672;</span> <span class="email-text"></span></div>
         <div class="pill"><span>&#9672;</span> +1 (541) 908 9216</div>
         <div class="pill"><span>&#9672;</span> Expected Graduation &middot; June 2026</div>
         <div class="pill"><span>&#9672;</span> Advisors &middot; Dr. V John Mathews &amp; Dr. Raffaele De Amicis</div>
@@ -295,37 +295,10 @@
 
 <footer>
   <span>&copy; 2025 Keerthana Gopalakrishnan</span>
-  <span>gopalake&#64;oregonstate.edu &middot; Corvallis, OR</span>
+  <span><span class="email-text"></span> &middot; Corvallis, OR</span>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
-  });
-  function animateRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => { cursor.style.width = '20px'; cursor.style.height = '20px'; cursor.style.background = '#fff'; });
-    el.addEventListener('mouseleave', () => { cursor.style.width = '12px'; cursor.style.height = '12px'; cursor.style.background = 'var(--accent)'; });
-  });
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-        e.target.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-      }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.skill-card, .project-card, .pub-item, .edu-card, .time
+
+<script src="main.js"></script>
+</body>
+</html>
